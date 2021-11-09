@@ -63,7 +63,13 @@ function removeFilesAndDirs()
 {
     $data = scandir($_SERVER['DOCUMENT_ROOT']);
 
+
     foreach ($data as $item) {
+
+        if ($item == '.' OR $item == '..') {
+            continue;
+        }
+
         @unlink($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
         @rmdir($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
     }
@@ -85,7 +91,7 @@ function unpackRepo_getRepo($params)
 
 
         $name = strtr($params['repo'], ['git clone' => '']);
-        $name = strtr($params['repo'], ['/src/master/' => '']);
+        $name = strtr($name, ['/src/master/' => '']);
 
         if (strstr($name, ':') AND strstr($name, '@')) {
             $name = explode(':', $name)[1];
