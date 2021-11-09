@@ -67,17 +67,6 @@ function unpackRepo()
 function removeDir($params)
 {
 
-    if ($params['path'] == $_SERVER['DOCUMENT_ROOT']) {
-        $params['path'] = false;
-    }
-
-    if (strtr($_SERVER['DOCUMENT_ROOT'], ['/' => '']) == strtr($params['path'], ['/' => ''])) {
-        $params['path'] = false;
-    }
-
-    if ($params['path']) {
-        $params['path'] = trim($params['path']);
-    }
     if (!$params['path']) {
         return false;
     }
@@ -101,18 +90,9 @@ function removeDir($params)
 
 function removeFilesAndDirs()
 {
-    $data = scandir($_SERVER['DOCUMENT_ROOT']);
-    
-    foreach ($data as $item) {
-
-        if ($item == '.' OR $item == '..') {
-            continue;
-        }
-
-        @unlink($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
-        removeDir($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
-    }
-
+    $root = $_SERVER['DOCUMENT_ROOT'];
+    removeDir($root);
+    @mkdir($root);
 }
 
 function unpackRepo_getRepo($params)
