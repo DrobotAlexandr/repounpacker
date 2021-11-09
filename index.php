@@ -39,7 +39,9 @@ function unpackRepo()
         if (!strstr($data[2], 'Authentication')) {
             $data = cloneRepo($params);
             if (strstr($data[0], "fatal: destination path '.' already exists and is not an empty directory.")) {
-                removeFilesAndDirs();
+
+                unlink($_SERVER['DOCUMENT_ROOT'] . '/index.php');
+
                 sleep(1);
                 $data = cloneRepo($params);
             }
@@ -64,36 +66,6 @@ function unpackRepo()
 
 }
 
-function removeDir($params)
-{
-
-    if (!$params['path']) {
-        return false;
-    }
-
-    if ($content_del_cat = glob($params['path'] . '/*')) {
-
-        foreach ($content_del_cat as $object) {
-            if (is_dir($object)) {
-                removeDir(['path' => $object]);
-            } else {
-                @chmod($object, 0777);
-                @unlink($object);
-            }
-        }
-    }
-    @chmod($object, 0777);
-    @rmdir($params['path']);
-
-    return true;
-}
-
-function removeFilesAndDirs()
-{
-    $root = $_SERVER['DOCUMENT_ROOT'];
-    removeDir($root);
-    @mkdir($root);
-}
 
 function unpackRepo_getRepo($params)
 {
