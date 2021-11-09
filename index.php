@@ -33,10 +33,12 @@ function unpackRepo()
     ob_start();
 
     try {
+
         $data = cloneRepo($params);
 
         if (strstr($data[0], "fatal: destination path '.' already exists and is not an empty directory.")) {
             removeFilesAndDirs();
+            $data = cloneRepo($params);
         }
 
         echo '<pre>';
