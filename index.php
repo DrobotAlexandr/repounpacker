@@ -34,18 +34,13 @@ function unpackRepo()
 
     try {
 
-        $data = cloneRepo($params, 'false');
+        $data = cloneRepo($params);
+        if (strstr($data[0], "fatal: destination path '.' already exists and is not an empty directory.")) {
 
-        if (!strstr($data[2], 'Authentication')) {
+            unlink($_SERVER['DOCUMENT_ROOT'] . '/index.php');
+
+            sleep(1);
             $data = cloneRepo($params);
-            if (strstr($data[0], "fatal: destination path '.' already exists and is not an empty directory.")) {
-
-                unlink($_SERVER['DOCUMENT_ROOT'] . '/index.php');
-
-                sleep(1);
-                $data = cloneRepo($params);
-            }
-
         }
 
         echo '<pre>';
