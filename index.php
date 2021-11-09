@@ -34,14 +34,18 @@ function unpackRepo()
 
     try {
 
-        $data = cloneRepo($params);
+        $checkAuth = cloneRepo($params, false);
 
-        if (strstr($data[0], "fatal: destination path '.' already exists and is not an empty directory.")) {
-            removeFilesAndDirs();
-            sleep(1);
+        if (!strstr($checkAuth, 'Authentication')) {
             $data = cloneRepo($params);
-        }
 
+            if (strstr($data[0], "fatal: destination path '.' already exists and is not an empty directory.")) {
+                removeFilesAndDirs();
+                sleep(1);
+                $data = cloneRepo($params);
+            }
+
+        }
         echo '<pre>';
         print_r($data);
         echo '</pre>';
@@ -111,7 +115,7 @@ function unpackRepo_getRepo($params)
     ];
 }
 
-function cloneRepo($params)
+function cloneRepo($params, $dot = '.')
 {
 
     $rootDir = $_SERVER['DOCUMENT_ROOT'];
@@ -137,7 +141,7 @@ function cloneRepo($params)
     $res = false;
 
     if ($ex) {
-        $ex = "cd $rootDir & $ex . 2>&1";
+        $ex = "cd $rootDir & $ex $dot 2>&1";
         exec($ex, $res);
     }
 
