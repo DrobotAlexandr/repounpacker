@@ -70,8 +70,8 @@ function removeFilesAndDirs()
             continue;
         }
 
-        //  @unlink($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
-        //  @rmdir($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
+        @unlink($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
+        @rmdir($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
     }
 
 }
@@ -102,7 +102,7 @@ function unpackRepo_getRepo($params)
         }
 
         $name = trim($name);
-        
+
     }
 
     return [
