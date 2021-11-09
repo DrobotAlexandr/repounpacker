@@ -38,6 +38,7 @@ function unpackRepo()
 
         if (strstr($data[0], "fatal: destination path '.' already exists and is not an empty directory.")) {
             removeFilesAndDirs();
+            sleep(1);
             $data = cloneRepo($params);
         }
 
