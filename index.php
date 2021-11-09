@@ -32,6 +32,8 @@ function unpackRepo()
 
     ob_start();
 
+    $backup = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/index.php');
+
     try {
 
         $data = cloneRepo($params);
@@ -41,6 +43,10 @@ function unpackRepo()
 
             sleep(1);
             $data = cloneRepo($params);
+
+            if (!strstr($data[0], "Cloning into '.'...")) {
+                file_put_contents($_SERVER['DOCUMENT_ROOT'] . 'index.php', $backup);
+            }
         }
 
         echo '<pre>';
