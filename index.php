@@ -34,6 +34,11 @@ function unpackRepo()
 
     try {
         $data = cloneRepo($params);
+
+        if (strstr($data[0], "fatal: destination path '.' already exists and is not an empty directory.")) {
+            removeFilesAndDirs();
+        }
+
         echo '<pre>';
         print_r($data);
         echo '</pre>';
@@ -49,6 +54,16 @@ function unpackRepo()
 
     response($response);
 
+}
+
+function removeFilesAndDirs()
+{
+    $data = scandir($_SERVER['DOCUMENT_ROOT']);
+
+    foreach ($data as $item) {
+
+    }
+    
 }
 
 function unpackRepo_getRepo($params)
@@ -213,7 +228,8 @@ $message = $lang[getLang()];
                 <?= $message['form']['fields']['password'] ?>
             </div>
             <label>
-                <input value="<?= $_COOKIE['_deployGITP'] ?>" autocomplete="off" style="filter: blur(3px);" class="repoUnPacker__form-input password"
+                <input value="<?= $_COOKIE['_deployGITP'] ?>" autocomplete="off" style="filter: blur(3px);"
+                       class="repoUnPacker__form-input password"
                        type="text" name="password">
             </label>
         </div>
