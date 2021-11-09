@@ -34,7 +34,7 @@ function unpackRepo()
 
     try {
 
-        $checkAuth = cloneRepo($params, false);
+        $data = cloneRepo($params, false);
 
         if (!strstr($checkAuth, 'Authentication')) {
             $data = cloneRepo($params);
