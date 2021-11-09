@@ -34,11 +34,10 @@ function unpackRepo()
 
     try {
 
-        $data = cloneRepo($params, ' ');
+        $data = cloneRepo($params, 'false');
 
-        if (!strstr($data, 'Authentication')) {
+        if (!strstr($data[2], 'Authentication')) {
             $data = cloneRepo($params);
-
             if (strstr($data[0], "fatal: destination path '.' already exists and is not an empty directory.")) {
                 removeFilesAndDirs();
                 sleep(1);
@@ -46,9 +45,11 @@ function unpackRepo()
             }
 
         }
+
         echo '<pre>';
         print_r($data);
         echo '</pre>';
+
     } catch (Throwable  $t) {
         echo "<pre>$t</pre>";
     }
@@ -139,6 +140,10 @@ function cloneRepo($params, $dot = '.')
     }
 
     $res = false;
+
+    if ($dot == 'false') {
+        $dot = '';
+    }
 
     if ($ex) {
         $ex = "cd $rootDir & $ex $dot 2>&1";
