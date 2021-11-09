@@ -70,8 +70,8 @@ function removeFilesAndDirs()
             continue;
         }
 
-        @unlink($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
-        @rmdir($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
+        //  @unlink($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
+        //  @rmdir($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
     }
 
 }
@@ -97,11 +97,12 @@ function unpackRepo_getRepo($params)
             $name = explode(':', $name)[1];
         }
 
-        $name = explode('https://bitbucket.org/', $name)[1];
-
+        if (strstr($name, 'https://bitbucket.org/')) {
+            $name = explode('https://bitbucket.org/', $name)[1];
+        }
 
         $name = trim($name);
-
+        
     }
 
     return [
