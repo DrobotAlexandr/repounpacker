@@ -44,7 +44,7 @@ function unpackRepo()
             sleep(1);
             $data = cloneRepo($params);
 
-            if (!strstr($data[0], "Cloning") OR strstr($data[2], "fatal:") ) {
+            if (!strstr($data[0], "Cloning") OR strstr($data[2], "fatal:") OR strstr($data[1], "fatal:") OR strstr($data[0], "fatal:") ) {
                 file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/index.php', $backup);
             }
         }
