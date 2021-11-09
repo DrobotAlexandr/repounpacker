@@ -66,12 +66,14 @@ function unpackRepo_getRepo($params)
 
 
         $name = strtr($params['repo'], ['git clone' => '']);
+        $name = strtr($params['repo'], ['/src/master/' => '']);
 
         if (strstr($name, ':') AND strstr($name, '@')) {
             $name = explode(':', $name)[1];
         }
 
         $name = explode('https://bitbucket.org/', $name)[1];
+
 
         $name = trim($name);
 
@@ -109,7 +111,7 @@ function cloneRepo($params)
     $res = false;
 
     if ($ex) {
-        $ex = "cd $rootDir & $ex 2>&1";
+        $ex = "cd $rootDir & $ex . 2>&1";
         exec($ex, $res);
     }
 
