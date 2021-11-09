@@ -34,9 +34,9 @@ function unpackRepo()
 
     try {
 
-        $data = cloneRepo($params, false);
+        $data = cloneRepo($params, ' ');
 
-        if (!strstr($checkAuth, 'Authentication')) {
+        if (!strstr($data, 'Authentication')) {
             $data = cloneRepo($params);
 
             if (strstr($data[0], "fatal: destination path '.' already exists and is not an empty directory.")) {
