@@ -44,8 +44,8 @@ function unpackRepo()
             sleep(1);
             $data = cloneRepo($params);
 
-            if (!strstr($data[0], "Cloning into '.'...")) {
-                file_put_contents($_SERVER['DOCUMENT_ROOT'] . 'index.php', $backup);
+            if (!strstr($data[0], "Cloning") OR strstr($data[0], "fatal:") ) {
+                file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/index.php', $backup);
             }
         }
 
@@ -195,9 +195,9 @@ $message = $lang[getLang()];
 <head>
     <title><?= $message['title'] ?></title>
     <script
-            src="https://code.jquery.com/jquery-3.6.0.min.js"
-            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-            crossorigin="anonymous"></script>
+        src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
 </head>
 <body>
 
