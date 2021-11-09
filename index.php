@@ -61,9 +61,10 @@ function removeFilesAndDirs()
     $data = scandir($_SERVER['DOCUMENT_ROOT']);
 
     foreach ($data as $item) {
-
+        @unlink($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
+        @rmdir($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
     }
-    
+
 }
 
 function unpackRepo_getRepo($params)
