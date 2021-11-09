@@ -64,11 +64,45 @@ function unpackRepo()
 
 }
 
+function removeDir($params)
+{
+
+    if ($params['path'] == $_SERVER['DOCUMENT_ROOT']) {
+        $params['path'] = false;
+    }
+
+    if (strtr($_SERVER['DOCUMENT_ROOT'], ['/' => '']) == strtr($params['path'], ['/' => ''])) {
+        $params['path'] = false;
+    }
+
+    if ($params['path']) {
+        $params['path'] = trim($params['path']);
+    }
+    if (!$params['path']) {
+        return false;
+    }
+
+    if ($content_del_cat = glob($params['path'] . '/*')) {
+
+        foreach ($content_del_cat as $object) {
+            if (is_dir($object)) {
+                removeDir(['path' => $object]);
+            } else {
+                @chmod($object, 0777);
+                @unlink($object);
+            }
+        }
+    }
+    @chmod($object, 0777);
+    @rmdir($params['path']);
+
+    return true;
+}
+
 function removeFilesAndDirs()
 {
     $data = scandir($_SERVER['DOCUMENT_ROOT']);
-
-
+    
     foreach ($data as $item) {
 
         if ($item == '.' OR $item == '..') {
@@ -76,7 +110,7 @@ function removeFilesAndDirs()
         }
 
         @unlink($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
-        @rmdir($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
+        removeDir($_SERVER['DOCUMENT_ROOT'] . '/' . $item);
     }
 
 }
